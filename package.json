@@ -1,0 +1,24 @@
+{
+  "name": "writing-polisher-chrome-extension",
+  "version": "1.0.0",
+  "description": "口语化表达转专业书面法律文书，支持离线词典转换和法条查询",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.283",
+    "@types/node": "^22.8.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@wxt-dev/module-react": "^1.0.1",
+    "typescript": "^5.6.3",
+    "wxt": "^0.20.27"
+  }
+}
