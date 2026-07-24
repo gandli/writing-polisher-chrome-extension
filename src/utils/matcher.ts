@@ -15,7 +15,8 @@ export async function findDictionaryMatches(text: string): Promise<MatchResult[]
   const matches: MatchResult[] = [];
 
   // We need to check non-overlapping matches, longest first
-  const matchedPositions = new Set<string>();
+  // Track which character positions are already matched
+  const matchedPositions = new Set<number>();
 
   for (const keyword of keywords) {
     const replacement = dictionary[keyword];
@@ -24,10 +25,10 @@ export async function findDictionaryMatches(text: string): Promise<MatchResult[]
 
     while ((index = text.indexOf(keyword, startIndex)) !== -1) {
       const end = index + keyword.length;
-      // Check if any part of this range is already matched
+      // Check if any character in this range is already matched
       let overlaps = false;
       for (let i = index; i < end; i++) {
-        if (matchedPositions.has(i.toString())) {
+        if (matchedPositions.has(i)) {
           overlaps = true;
           break;
         }
@@ -43,7 +44,7 @@ export async function findDictionaryMatches(text: string): Promise<MatchResult[]
         });
         // Mark positions as matched
         for (let i = index; i < end; i++) {
-          matchedPositions.add(i.toString());
+          matchedPositions.add(i);
         }
       }
 
