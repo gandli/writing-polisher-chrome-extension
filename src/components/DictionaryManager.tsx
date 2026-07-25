@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getAllDictionaryEntries } from '../../utils/dictionary';
-import { getCustomDictionary, setCustomDictionary } from '../../utils/storage';
-import { DictionaryEntry } from '../../types';
+import { getAllDictionaryEntries } from '../utils/dictionary';
+import { getCustomDictionary, setCustomDictionary } from '../utils/storage';
+import { DictionaryEntry } from '../types';
 
 export default function DictionaryManager() {
   const [entries, setEntries] = useState<DictionaryEntry[]>([]);

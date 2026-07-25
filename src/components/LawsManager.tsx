@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getAllLawEntries } from '../../utils/laws';
-import { getCustomLaws, setCustomLaws } from '../../utils/storage';
-import { LawEntry } from '../../types';
+import { getAllLawEntries } from '../utils/laws';
+import { getCustomLaws, setCustomLaws } from '../utils/storage';
+import { LawEntry } from '../types';
 
 export default function LawsManager() {
   const [entries, setEntries] = useState<LawEntry[]>([]);

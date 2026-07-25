@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { useState, useEffect } from 'react';
-import DictionaryManager from '../../../src/components/DictionaryManager';
-import LawsManager from '../../../src/components/LawsManager';
-import '../../../src/styles/options.css';
+import DictionaryManager from '../../src/components/DictionaryManager';
+import LawsManager from '../../src/components/LawsManager';
+import '../../src/styles/options.css';
 
 const Options = () => {
   const [activeTab, setActiveTab] = useState<'dictionary' | 'laws'>('dictionary');

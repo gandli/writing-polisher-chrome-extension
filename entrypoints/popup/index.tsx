@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { useState, useEffect } from 'react';
 import { getEnabled, setEnabled } from '../../src/utils/storage';
-import '../../../src/styles/popup.css';
+import '../../src/styles/popup.css';
 
 const Popup = () => {
   const [enabled, setEnabledState] = useState(true);
