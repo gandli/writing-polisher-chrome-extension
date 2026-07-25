@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import { useState, useEffect } from 'react';
 import CorrectorSettings from '../../../src/components/CorrectorSettings';
 import '../../../src/styles/options.css';
 
