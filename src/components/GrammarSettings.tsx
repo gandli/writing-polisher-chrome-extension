@@ -58,13 +58,14 @@ export default function GrammarSettings() {
           <span>启用语法拼写检查</span>
         </label>
         <p className="description">
-          需要本地运行 LanguageTool 服务器，默认地址为 http://localhost:8081
+          优先使用 <strong>纯浏览器端 ONNX 中文纠错模型</strong>，需要联网下载模型文件（~100MB），完全离线运行。<br />
+          如果模型加载失败，会自动回退到 LanguageTool。
         </p>
       </div>
 
       <div className="setting-item">
         <label>
-          <span>LanguageTool 服务器地址</span>
+          <span>LanguageTool 服务器地址（备选 fallback）</span>
           <input
             type="text"
             value={serverUrl}
@@ -94,6 +95,9 @@ export default function GrammarSettings() {
             ))}
           </select>
         </label>
+        <p className="description">
+          纯前端 ONNX 模型默认优化简体中文。
+        </p>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@
 
 import { findAllMatches } from '../src/utils/matcher';
 import { LanguageToolClient } from '../src/utils/languagetool';
+import { ChineseSpellingCorrector } from '../src/utils/chinese-corrector';
 import {
   injectStyles,
   removeHighlights,
@@ -27,7 +28,9 @@ export default () => {
 
 let enabled = true;
 let grammarEnabled = true;
+let useLocalSpellingCorrector = true;
 let grammarClient: LanguageToolClient | null = null;
+let spellingCorrector: ChineseSpellingCorrector | null = null;
 let debounceTimer: number | null = null;
 
 /**
@@ -42,17 +45,36 @@ async function updateHighlights() {
   removeHighlights();
 
   const containers = getEditableContainers();
-  let allMatches: MatchResult[] = [];
 
   for (const container of containers) {
     const text = container.textContent || '';
     if (!text.trim()) continue;
 
+    let allMatches: MatchResult[] = [];
+
     const dictMatches = await findAllMatches(text);
     allMatches = allMatches.concat(dictMatches);
 
-    // Grammar check with LanguageTool
-    if (grammarEnabled && grammarClient) {
+    // Chinese spelling correction (pure browser ONNX)
+    if (grammarEnabled && spellingCorrector && spellingCorrector.isInitialized()) {
+      try {
+        const spellingMatches = await spellingCorrector.check(text);
+        spellingMatches.forEach(match => {
+          allMatches.push({
+            text: text.slice(match.offset, match.offset + match.length),
+            replacement: match.replacements[0] || '',
+            start: match.offset,
+            end: match.offset + match.length,
+            type: 'grammar',
+            grammarMessage: match.message,
+            grammarReplacements: match.replacements,
+          });
+        });
+      } catch (error) {
+        console.error('[Writing Polisher] Spelling check failed:', error);
+      }
+    } else if (grammarEnabled && grammarClient) {
+      // Fallback to LanguageTool if local corrector not ready
       try {
         const grammarMatches = await grammarClient.check(text, await getGrammarLanguage());
         grammarMatches.forEach(match => {
@@ -70,10 +92,10 @@ async function updateHighlights() {
         console.error('[Writing Polisher] Grammar check failed:', error);
       }
     }
-  }
 
-  if (allMatches.length > 0) {
-    applyHighlights(container, allMatches);
+    if (allMatches.length > 0) {
+      applyHighlights(container, allMatches);
+    }
   }
 }
 
@@ -192,6 +214,20 @@ async function init() {
   const serverUrl = await getGrammarServerUrl();
   grammarClient = new LanguageToolClient(serverUrl);
 
+  // Initialize local ONNX Chinese spelling corrector
+  if (grammarEnabled) {
+    spellingCorrector = new ChineseSpellingCorrector();
+    // Initialize in background
+    spellingCorrector.init().then(success => {
+      if (success) {
+        console.log('[Writing Polisher] Local Chinese spelling corrector ready');
+        updateHighlights();
+      } else {
+        console.warn('[Writing Polisher] Failed to init local corrector, falling back to LanguageTool');
+      }
+    });
+  }
+
   // Add click listener
   document.addEventListener('click', handleHighlightClick, true);
 
@@ -210,6 +246,16 @@ async function init() {
       grammarClient.setServerUrl(url);
     } else {
       grammarClient = new LanguageToolClient(url);
+    }
+
+    // Initialize corrector if enabled and not initialized
+    if (grammarEnabled && !spellingCorrector) {
+      spellingCorrector = new ChineseSpellingCorrector();
+      spellingCorrector.init().then(success => {
+        if (success) {
+          updateHighlights();
+        }
+      });
     }
     updateHighlights();
   });
