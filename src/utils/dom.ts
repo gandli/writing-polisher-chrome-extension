@@ -7,6 +7,7 @@ import { MatchResult } from '../types';
 // Class names
 export const HIGHLIGHT_CLASS_DICT = 'writing-polisher-highlight-dict';
 export const HIGHLIGHT_CLASS_LAW = 'writing-polisher-highlight-law';
+export const HIGHLIGHT_CLASS_GRAMMAR = 'wt-spelling';
 export const POPUP_CLASS = 'writing-polisher-popup';
 
 /**
@@ -139,8 +140,16 @@ function wrapTextNode(node: Text, matches: MatchResult[]): void {
     span.dataset.end = match.end.toString();
     if (match.type === 'dictionary') {
       span.className = HIGHLIGHT_CLASS_DICT;
-    } else {
+    } else if (match.type === 'law') {
       span.className = HIGHLIGHT_CLASS_LAW;
+    } else if (match.type === 'grammar') {
+      span.className = HIGHLIGHT_CLASS_GRAMMAR;
+      span.style.backgroundColor = 'rgba(255, 100, 100, 0.4)';
+      span.style.textDecoration = 'underline';
+      span.style.textDecorationColor = 'rgba(200, 0, 0, 0.6)';
+      span.style.borderRadius = '2px';
+      span.dataset.grammarMessage = match.grammarMessage || '';
+      span.dataset.grammarReplacements = JSON.stringify(match.grammarReplacements || []);
     }
     fragment.appendChild(span);
 
@@ -199,7 +208,9 @@ export function showPopup(
   match: MatchResult,
   targetElement: HTMLElement,
   onReplace?: () => void,
-  onClose?: () => void
+  onClose?: () => void,
+  grammarMessage?: string,
+  grammarReplacements?: string[],
 ): void {
   removePopup();
 
@@ -217,6 +228,21 @@ export function showPopup(
       <div class="actions">
         <button id="wp-popup-cancel">忽略</button>
         <button id="wp-popup-replace" class="primary">替换</button>
+      </div>
+    `;
+  } else if (match.type === 'grammar') {
+    const message = grammarMessage || '语法建议';
+    const replacement = (grammarReplacements && grammarReplacements.length > 0) ? grammarReplacements[0] : match.replacement;
+    popup.innerHTML = `
+      <div class="title">✏️ 语法建议</div>
+      <div class="content">
+        <div><strong>原文：</strong>${match.text}</div>
+        ${replacement ? `<div><strong>建议：</strong>${replacement}</div>` : ''}
+        <div>${message}</div>
+      </div>
+      <div class="actions">
+        <button id="wp-popup-cancel">忽略</button>
+        ${replacement ? `<button id="wp-popup-replace" class="primary">替换</button>` : ''}
       </div>
     `;
   } else {
@@ -238,7 +264,7 @@ export function showPopup(
   document.body.appendChild(popup);
 
   // Event listeners
-  if (match.type === 'dictionary') {
+  if (match.type === 'dictionary' || match.type === 'grammar') {
     popup.querySelector('#wp-popup-replace')?.addEventListener('click', () => {
       onReplace?.();
       removePopup();
@@ -260,7 +286,7 @@ export function showPopup(
         removePopup();
         document.removeEventListener('click', closeOnClick);
       }
-    });
+    }, 0);
   }, 0);
 }
 

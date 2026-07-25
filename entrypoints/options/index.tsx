@@ -2,10 +2,11 @@ import { createRoot } from 'react-dom/client';
 import { useState, useEffect } from 'react';
 import DictionaryManager from '../../../src/components/DictionaryManager';
 import LawsManager from '../../../src/components/LawsManager';
+import GrammarSettings from '../../../src/components/GrammarSettings';
 import '../../../src/styles/options.css';
 
 const Options = () => {
-  const [activeTab, setActiveTab] = useState<'dictionary' | 'laws'>('dictionary');
+  const [activeTab, setActiveTab] = useState<'dictionary' | 'laws' | 'grammar'>('dictionary');
 
   return (
     <div className="options-container">
@@ -27,11 +28,18 @@ const Options = () => {
         >
           法条管理
         </button>
+        <button
+          className={`tab ${activeTab === 'grammar' ? 'active' : ''}`}
+          onClick={() => setActiveTab('grammar')}
+        >
+          语法检查
+        </button>
       </div>
 
       <main>
         {activeTab === 'dictionary' && <DictionaryManager />}
         {activeTab === 'laws' && <LawsManager />}
+        {activeTab === 'grammar' && <GrammarSettings />}
       </main>
     </div>
   );

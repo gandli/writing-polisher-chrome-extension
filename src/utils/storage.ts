@@ -58,3 +58,30 @@ export async function getEnabled(): Promise<boolean> {
 export async function setEnabled(enabled: boolean): Promise<void> {
   await setStorageData({ enabled });
 }
+
+export async function getGrammarEnabled(): Promise<boolean> {
+  const data = await getStorageData();
+  return data.grammarEnabled;
+}
+
+export async function setGrammarEnabled(enabled: boolean): Promise<void> {
+  await setStorageData({ grammarEnabled: enabled });
+}
+
+export async function getGrammarServerUrl(): Promise<string> {
+  const data = await getStorageData();
+  return data.grammarServerUrl;
+}
+
+export async function setGrammarServerUrl(url: string): Promise<void> {
+  await setStorageData({ grammarServerUrl: url });
+}
+
+export async function getGrammarLanguage(): Promise<string> {
+  const data = await getStorageData();
+  return data.grammarLanguage;
+}
+
+export async function setGrammarLanguage(lang: string): Promise<void> {
+  await setStorageData({ grammarLanguage: lang });
+}

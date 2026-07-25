@@ -23,8 +23,22 @@ export interface MatchResult {
   replacement: string;
   start: number;
   end: number;
-  type: 'dictionary' | 'law';
+  type: 'dictionary' | 'law' | 'grammar';
   data?: LawEntry;
+  grammarMessage?: string;
+  grammarReplacements?: string[];
+}
+
+// Grammar match from LanguageTool
+export interface GrammarMatch {
+  offset: number;
+  length: number;
+  message: string;
+  replacements: string[];
+  rule: {
+    id: string;
+    description: string;
+  };
 }
 
 // 存储数据结构
@@ -32,6 +46,9 @@ export interface StorageData {
   customDictionary: Record<string, string>;
   customLaws: Record<string, Record<string, string>>;
   enabled: boolean;
+  grammarEnabled: boolean;
+  grammarServerUrl: string;
+  grammarLanguage: string;
 }
 
 // 默认存储数据
@@ -39,4 +56,7 @@ export const defaultStorageData: StorageData = {
   customDictionary: {},
   customLaws: {},
   enabled: true,
+  grammarEnabled: true,
+  grammarServerUrl: 'http://localhost:8081',
+  grammarLanguage: 'zh-CN',
 };
