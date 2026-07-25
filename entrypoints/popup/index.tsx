@@ -19,9 +19,9 @@ const Popup = () => {
 
   return (
     <div className="popup-container">
-      <h1>Writing Polisher</h1>
+      <h1>pycorrector 中文纠错</h1>
       <p className="description">
-        自动标记口语化表达，一键转换为专业书面表达。支持法条查询。
+        纯浏览器端中文拼写纠错，基于 ONNX Runtime Web 运行 pycorrector 预训练模型。
       </p>
       <div className="setting-row">
         <label>
@@ -35,7 +35,7 @@ const Popup = () => {
       </div>
       <div className="actions">
         <a href={chrome.runtime.getURL('options.html')} target="_blank" rel="noopener noreferrer">
-          打开选项页 → 管理词典/法条
+          打开选项页 → 配置模型
         </a>
       </div>
       <div className="footer">

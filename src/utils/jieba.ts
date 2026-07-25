@@ -1,22 +1,21 @@
 /**
- * 中文分词工具 - 基于 jieba.js
+ * 中文分词工具 - 基于 jieba
  * 用于中文文本纠错前的分词处理
  */
 
-import Jieba from 'jieba-js';
+import jieba from 'jieba';
 
-const jieba = new Jieba();
 let initialized = false;
 
 export async function initJieba(): Promise<void> {
   if (initialized) return;
   try {
-    // jieba-js 会自动加载词典
+    // jieba 会自动加载词典
     await jieba.init();
     initialized = true;
-    console.log('[Writing Polisher] jieba.js initialized');
+    console.log('[pycorrector] jieba initialized');
   } catch (error) {
-    console.error('[Writing Polisher] Failed to initialize jieba.js:', error);
+    console.error('[pycorrector] Failed to initialize jieba:', error);
     throw error;
   }
 }
@@ -28,7 +27,7 @@ export async function initJieba(): Promise<void> {
  */
 export async function cut(text: string): Promise<string[]> {
   if (!initialized) {
-    console.warn('[Writing Polisher] jieba.js not initialized yet');
+    console.warn('[pycorrector] jieba not initialized yet');
     return [text];
   }
   return await jieba.cut(text);
@@ -41,7 +40,7 @@ export async function cut(text: string): Promise<string[]> {
  */
 export async function cutWithPos(text: string): Promise<Array<{word: string, pos: string, start: number, end: number}>> {
   if (!initialized) {
-    console.warn('[Writing Polisher] jieba.js not initialized yet');
+    console.warn('[pycorrector] jieba not initialized yet');
     return [{ word: text, pos: 'x', start: 0, end: text.length }];
   }
   const result = await cut(text);
@@ -59,9 +58,3 @@ export async function cutWithPos(text: string): Promise<Array<{word: string, pos
     return posInfo;
   });
 }
-
-export default {
-  initJieba,
-  cut,
-  cutWithPos,
-};

@@ -5,8 +5,6 @@
 import { MatchResult } from '../types';
 
 // Class names
-export const HIGHLIGHT_CLASS_DICT = 'writing-polisher-highlight-dict';
-export const HIGHLIGHT_CLASS_LAW = 'writing-polisher-highlight-law';
 export const HIGHLIGHT_CLASS_GRAMMAR = 'wt-spelling';
 export const POPUP_CLASS = 'writing-polisher-popup';
 
@@ -21,18 +19,10 @@ export function injectStyles(): void {
   const style = document.createElement('style');
   style.id = 'writing-polisher-styles';
   style.textContent = `
-    .${HIGHLIGHT_CLASS_DICT} {
-      background-color: rgba(255, 230, 109, 0.4);
+    .${HIGHLIGHT_CLASS_GRAMMAR} {
+      background-color: rgba(255, 100, 100, 0.4);
       text-decoration: underline;
-      text-decoration-color: rgba(255, 152, 0, 0.6);
-      cursor: pointer;
-      border-radius: 2px;
-    }
-
-    .${HIGHLIGHT_CLASS_LAW} {
-      background-color: rgba(100, 181, 255, 0.3);
-      text-decoration: underline;
-      text-decoration-color: rgba(21, 101, 192, 0.6);
+      text-decoration-color: rgba(200, 0, 0, 0.6);
       cursor: pointer;
       border-radius: 2px;
     }
@@ -95,7 +85,7 @@ export function injectStyles(): void {
  */
 export function removeHighlights(): void {
   const highlights = document.querySelectorAll(
-    `.${HIGHLIGHT_CLASS_DICT}, .${HIGHLIGHT_CLASS_LAW}`
+    `.${HIGHLIGHT_CLASS_GRAMMAR}`
   );
   highlights.forEach((el) => {
     const parent = el.parentNode;
@@ -138,16 +128,8 @@ function wrapTextNode(node: Text, matches: MatchResult[]): void {
     span.dataset.replacement = match.replacement;
     span.dataset.start = match.start.toString();
     span.dataset.end = match.end.toString();
-    if (match.type === 'dictionary') {
-      span.className = HIGHLIGHT_CLASS_DICT;
-    } else if (match.type === 'law') {
-      span.className = HIGHLIGHT_CLASS_LAW;
-    } else if (match.type === 'grammar') {
+    if (match.type === 'grammar') {
       span.className = HIGHLIGHT_CLASS_GRAMMAR;
-      span.style.backgroundColor = 'rgba(255, 100, 100, 0.4)';
-      span.style.textDecoration = 'underline';
-      span.style.textDecorationColor = 'rgba(200, 0, 0, 0.6)';
-      span.style.borderRadius = '2px';
       span.dataset.grammarMessage = match.grammarMessage || '';
       span.dataset.grammarReplacements = JSON.stringify(match.grammarReplacements || []);
     }
@@ -190,8 +172,7 @@ export function applyHighlights(container: Element, matches: MatchResult[]): voi
     if (!text.trim()) return;
 
     const nodeMatches = matches.filter((m) => {
-      // Approximate matching for text node - this is simplified
-      // For full accuracy we'd need to track offsets from root
+      // Approximate matching for text node
       return text.includes(m.text);
     });
 
@@ -218,23 +199,11 @@ export function showPopup(
   const popup = document.createElement('div');
   popup.className = POPUP_CLASS;
 
-  if (match.type === 'dictionary') {
-    popup.innerHTML = `
-      <div class="title">💡 建议替换</div>
-      <div class="content">
-        <div><strong>原文：</strong>${match.text}</div>
-        <div><strong>替换为：</strong>${match.replacement}</div>
-      </div>
-      <div class="actions">
-        <button id="wp-popup-cancel">忽略</button>
-        <button id="wp-popup-replace" class="primary">替换</button>
-      </div>
-    `;
-  } else if (match.type === 'grammar') {
-    const message = grammarMessage || '语法建议';
+  if (match.type === 'grammar') {
+    const message = grammarMessage || '拼写建议';
     const replacement = (grammarReplacements && grammarReplacements.length > 0) ? grammarReplacements[0] : match.replacement;
     popup.innerHTML = `
-      <div class="title">✏️ 语法建议</div>
+      <div class="title">✏️ 拼写建议</div>
       <div class="content">
         <div><strong>原文：</strong>${match.text}</div>
         ${replacement ? `<div><strong>建议：</strong>${replacement}</div>` : ''}
@@ -243,16 +212,6 @@ export function showPopup(
       <div class="actions">
         <button id="wp-popup-cancel">忽略</button>
         ${replacement ? `<button id="wp-popup-replace" class="primary">替换</button>` : ''}
-      </div>
-    `;
-  } else {
-    // Law popup
-    const content = match.data?.content || '未找到法条内容';
-    popup.innerHTML = `
-      <div class="title">📖 ${match.data?.name} 第${match.data?.article}条</div>
-      <div class="content">${content}</div>
-      <div class="actions">
-        <button id="wp-popup-close" class="primary">关闭</button>
       </div>
     `;
   }
@@ -264,17 +223,13 @@ export function showPopup(
   document.body.appendChild(popup);
 
   // Event listeners
-  if (match.type === 'dictionary' || match.type === 'grammar') {
+  if (match.type === 'grammar') {
     popup.querySelector('#wp-popup-replace')?.addEventListener('click', () => {
       onReplace?.();
       removePopup();
     });
     popup.querySelector('#wp-popup-cancel')?.addEventListener('click', () => {
       onClose?.();
-      removePopup();
-    });
-  } else {
-    popup.querySelector('#wp-popup-close')?.addEventListener('click', () => {
       removePopup();
     });
   }

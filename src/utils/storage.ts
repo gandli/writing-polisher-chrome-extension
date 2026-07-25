@@ -4,7 +4,7 @@
 
 import { StorageData, defaultStorageData } from '../types';
 
-const STORAGE_KEY = 'writing-polisher-data';
+const STORAGE_KEY = 'pycorrector-data';
 
 export async function getStorageData(): Promise<StorageData> {
   return new Promise((resolve) => {
@@ -32,24 +32,6 @@ export async function setStorageData(data: Partial<StorageData>): Promise<void> 
   });
 }
 
-export async function getCustomDictionary(): Promise<Record<string, string>> {
-  const data = await getStorageData();
-  return data.customDictionary;
-}
-
-export async function setCustomDictionary(dict: Record<string, string>): Promise<void> {
-  await setStorageData({ customDictionary: dict });
-}
-
-export async function getCustomLaws(): Promise<Record<string, Record<string, string>>> {
-  const data = await getStorageData();
-  return data.customLaws;
-}
-
-export async function setCustomLaws(laws: Record<string, Record<string, string>>): Promise<void> {
-  await setStorageData({ customLaws: laws });
-}
-
 export async function getEnabled(): Promise<boolean> {
   const data = await getStorageData();
   return data.enabled;
@@ -59,29 +41,20 @@ export async function setEnabled(enabled: boolean): Promise<void> {
   await setStorageData({ enabled });
 }
 
-export async function getGrammarEnabled(): Promise<boolean> {
+export async function getModelUrl(): Promise<string> {
   const data = await getStorageData();
-  return data.grammarEnabled;
+  return data.modelUrl;
 }
 
-export async function setGrammarEnabled(enabled: boolean): Promise<void> {
-  await setStorageData({ grammarEnabled: enabled });
+export async function setModelUrl(url: string): Promise<void> {
+  await setStorageData({ modelUrl: url });
 }
 
-export async function getGrammarServerUrl(): Promise<string> {
+export async function getVocabUrl(): Promise<string> {
   const data = await getStorageData();
-  return data.grammarServerUrl;
+  return data.vocabUrl;
 }
 
-export async function setGrammarServerUrl(url: string): Promise<void> {
-  await setStorageData({ grammarServerUrl: url });
-}
-
-export async function getGrammarLanguage(): Promise<string> {
-  const data = await getStorageData();
-  return data.grammarLanguage;
-}
-
-export async function setGrammarLanguage(lang: string): Promise<void> {
-  await setStorageData({ grammarLanguage: lang });
+export async function setVocabUrl(url: string): Promise<void> {
+  await setStorageData({ vocabUrl: url });
 }

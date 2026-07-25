@@ -1,11 +1,10 @@
 /**
  * 纯浏览器端中文文本纠错
- * 使用 ONNX Runtime Web 推理 MacBERT-CSC 中文纠错模型
- * 结合 jieba.js 分词
+ * 使用 ONNX Runtime Web 推理 MacBERT-CSC / Mengzi-T5 中文纠错模型
+ * 字符级输入，不需要分词
  */
 
 import * as ort from 'onnxruntime-web';
-import { initJieba, cutWithPos } from './jieba';
 import { GrammarMatch } from '../types';
 
 // 模型配置，使用量化后的 ONNX 模型
@@ -43,9 +42,6 @@ export class ChineseSpellingCorrector {
 
     this.initializing = true;
     try {
-      // Initialize jieba first
-      await initJieba();
-
       // Load vocabulary
       await this.loadVocab();
 
@@ -58,11 +54,11 @@ export class ChineseSpellingCorrector {
       });
 
       this.initialized = true;
-      console.log('[Writing Polisher] Chinese spelling corrector initialized');
+      console.log('[pycorrector] Chinese spelling corrector initialized');
       this.initializing = false;
       return true;
     } catch (error) {
-      console.error('[Writing Polisher] Failed to initialize Chinese spelling corrector:', error);
+      console.error('[pycorrector] Failed to initialize Chinese spelling corrector:', error);
       this.initializing = false;
       return false;
     }
@@ -115,7 +111,7 @@ export class ChineseSpellingCorrector {
    */
   async check(text: string): Promise<GrammarMatch[]> {
     if (!this.initialized || !this.session || !this.vocab || !this.idToToken) {
-      console.warn('[Writing Polisher] Spelling corrector not initialized');
+      console.warn('[pycorrector] Spelling corrector not initialized');
       return [];
     }
 
@@ -138,7 +134,7 @@ export class ChineseSpellingCorrector {
       const results = await this.session.run(feeds);
       const output = results['logits'];
       if (!output) {
-        console.error('[Writing Polisher] No logits output from model');
+        console.error('[pycorrector] No logits output from model');
         return [];
       }
 
@@ -176,7 +172,7 @@ export class ChineseSpellingCorrector {
 
       return matches;
     } catch (error) {
-      console.error('[Writing Polisher] Spelling check error:', error);
+      console.error('[pycorrector] Spelling check error:', error);
       return [];
     }
   }
