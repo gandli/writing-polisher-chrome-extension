@@ -1,82 +1,133 @@
-# Writing Polisher Chrome Extension
+# pycorrector Chrome Extension
 
-> 浏览器扩展：将口语化表达转换为专业书面法律文书表达，支持离线使用，内置词典转换和法条查询。
+![pycorrector Chrome Extension](./assets/readme/hero.svg)
 
-## 功能特性
+> Pure browser-side Chinese spelling correction, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.
 
-- ✨ **自动标记**：输入时自动识别口语化表达，下划线高亮提示
-- 🔄 **一键替换**：点击标记文本，弹窗显示建议替换，选择是否替换
-- 📖 **法条查询**：自动识别文中的法条引用，点击查看完整条款内容
-- 📝 **自定义词典**：支持用户添加/删除自定义转换词条
-- 📚 **自定义法条**：支持用户添加/删除自定义法条
-- 📤 **导出导入**：支持词典和法条的导出导入，方便团队共享
-- 🔌 **完全离线**：所有数据本地存储，不联网，不上传，适合企业内网使用
-- 🎯 **精确匹配**：长句优先匹配，避免短句拆分错误
+[![Tests](https://github.com/gandli/pycorrector-chrome-extension/actions/workflows/tests.yml/badge.svg)](https://github.com/gandli/pycorrector-chrome-extension/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 项目结构
+## Features
+
+- ✨ **Automatic Spelling Correction**: Detects Chinese spelling errors in editable text areas on any web page
+- 🔴 **Red Underline Highlighting**: Visually marks potential spelling mistakes
+- 🔄 **One-click Replacement**: Click the error to see suggested corrections and apply with one click
+- ⚙️ **Custom Model Support**: Configure your own ONNX model and vocabulary URLs in extension options
+- 🔌 **100% Offline**: All inference runs locally in your browser, no text is uploaded to any server
+- 🛡️ **Privacy-first**: Perfect for intranet/enterprise environments with strict data privacy requirements
+- 🧠 **Powered by pycorrector**: Uses pre-trained [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) model
+
+## Installation
+
+### From Chrome Web Store
+*Coming soon*
+
+### Load unpacked (development)
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/gandli/pycorrector-chrome-extension.git
+cd pycorrector-chrome-extension
+```
+
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Build the extension**
+```bash
+npm run build
+```
+
+4. **Load into Chrome**
+   1. Open Chrome and go to `chrome://extensions/`
+   2. Turn on **Developer mode**
+   3. Click **Load unpacked**
+   4. Select the `.output/chrome-mv3` directory
+
+## Usage
+
+1. After installation, the extension is enabled by default
+2. Navigate to any web page with editable text areas
+3. Type or paste Chinese text containing spelling errors
+4. Errors will be automatically highlighted with a red wavy underline
+5. Click on the highlighted error to see correction suggestions
+6. Click a suggestion to replace the error
+
+## Testing
+
+### Unit tests
+```bash
+npm run test
+```
+
+### E2E tests
+```bash
+npm run test:e2e
+```
+
+## Project Structure
 
 ```
-writing-polisher-chrome-extension/
+pycorrector-chrome-extension/
 ├── entrypoints/
-│   ├── background.ts    # 后台服务
-│   ├── content.tsx      # 内容脚本（页面注入）
-│   ├── popup.html       # 弹出窗口
-│   ├── popup.tsx        # 弹出窗口逻辑
-│   ├── options.html     # 选项页（词典/法条管理）
-│   └── options.tsx      # 选项页逻辑
+│   ├── content/            # Content script injected into pages
+│   ├── options/            # Extension options page
+│   └── popup/              # Popup toolbar
+├── e2e/                    # Playwright E2E tests
 ├── src/
-│   ├── data/            # 内置数据
-│   │   ├── dictionary.json   # 内置转换词典
-│   │   └── laws.json         # 内置法条库
-│   ├── hooks/           # React Hooks
-│   ├── utils/           # 工具函数
-│   │   ├── dictionary.ts # 词典加载和匹配
-│   │   ├── matcher.ts    # 文本匹配逻辑
-│   │   └── storage.ts    # 本地存储
-│   └── components/      # React 组件
-├── data/                # 文档相关数据
-├── docs/                # 项目文档
-├── public/              # 静态资源
-└── wxt.config.ts        # WXT 配置
+│   ├── components/         # React components
+│   │   └── CorrectorSettings.tsx
+│   ├── utils/
+│   │   ├── chinese-corrector.ts  # ONNX inference wrapper
+│   │   ├── dom.ts               # DOM manipulation for highlighting
+│   │   └── storage.ts           # Chrome storage wrapper
+│   └── types.ts            # TypeScript type definitions
+├── assets/
+│   └── readme/             # README assets
+├── test/                   # Vitest unit tests
+└── wxt.config.ts           # WXT configuration
 ```
 
-## 开发指南
+## How it works
 
-### 环境要求
+1. **Model**: Uses the ONNX version of [mengzi-t5-base-chinese-correction](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction) from pycorrector project
+2. **Inference**: Runs entirely in the browser using [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/), no backend server required
+3. **Detection**: Analyzes text in editable content, identifies potential character-level spelling errors
+4. **User Interface**: Highlights errors with CSS, provides a popup menu for one-click replacement
 
-- Node.js 18+
-- npm/yarn/pnpm/bun
+## Default Model
 
-### 开发运行
+The extension defaults to:
+- Model URL: `https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx/resolve/main/model.onnx`
+- Vocabulary URL: `https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx/resolve/main/vocab.txt`
+
+You can change these in the extension options page to use your own fine-tuned model.
+
+## Development
 
 ```bash
-# 安装依赖
+# Install dependencies
 npm install
 
-# 开发模式（热重载）
+# Development with hot reload
 npm run dev
 
-# 构建生产版本
+# Build for production
 npm run build
 
-# 打包扩展 zip
+# Zip for distribution
 npm run zip
 ```
 
-### 加载到浏览器
+## Credits
 
-1. 打开 Chrome 浏览器，进入 `chrome://extensions/`
-2. 打开「开发者模式」
-3. 点击「加载已解压的扩展程序」
-4. 选择 `.output/chrome-mv3-dev`（开发）或 `.output/chrome-mv3-prod`（生产）目录
+- [pycorrector](https://github.com/shibing624/pycorrector) - Original NLP project for Chinese text correction
+- [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) - Pre-trained ONNX model
+- [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) - Browser inference engine
+- [WXT](https://wxt.dev/) - Browser extension development framework
 
-## 使用文档
+## License
 
-- [项目需求设计](./docs/design.md)
-- [词典制作指南](./docs/dictionary-guide.md)
-- [法条整理指南](./docs/laws-guide.md)
-- [开发手册](./docs/development.md)
-
-## 许可
-
-MIT License
+MIT License - see [LICENSE](LICENSE) for details.
