@@ -5,6 +5,10 @@ declare module "wxt/browser" {
   export type PublicPath =
     | ""
     | "/"
+    | "/icons/icon-128.svg"
+    | "/icons/icon-16.svg"
+    | "/icons/icon-32.svg"
+    | "/icons/icon-48.svg"
     | "/options.html"
     | "/popup.html"
   type HtmlPublicPath = Extract<PublicPath, `${string}.html`>

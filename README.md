@@ -11,6 +11,64 @@
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/gandli/writing-polisher-extension/pulls)
 
+## Description
+
+Pure browser-side Chinese spelling correction extension for Chrome, powered by ONNX Runtime Web.
+
+- 100% offline, all inference runs locally in your browser
+- No text leaves your browser - perfect for intranet/enterprise environments with strict privacy requirements
+- Automatically detects Chinese spelling errors in any editable text area on any web page
+- Red underline highlighting + one-click replacement
+- Supports custom ONNX model and vocabulary
+- Dark mode automatic adaptation
+- Built with WXT + React + TypeScript
+
+## Project Stats
+
+- 📦 **Extension size**: ~148KB gzipped (model downloaded on-demand, not bundled)
+- 🧠 **Model**: Uses pre-trained [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) from [pycorrector](https://github.com/shibing624/pycorrector)
+- ✅ **Fully typed** with TypeScript
+- 🧪 **Tested**: Unit tests + E2E tests with Playwright
+- 🔒 **Security**: Follows Chrome extension security best practices, no XSS vulnerabilities
+
+## Credits
+
+- [pycorrector](https://github.com/shibing624/pycorrector) - Original NLP project for Chinese text correction
+- [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) - Pre-trained ONNX model
+- [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) - Browser inference engine
+- [WXT](https://wxt.dev/) - Browser extension development framework
+- [browser-extension-skills](https://github.com/quangpl/browser-extension-skills) - Agent skills for browser extension development
+
+## Installation
+
+### From Chrome Web Store
+
+*Coming soon*
+
+### Load unpacked (development)
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/gandli/writing-polisher-extension.git
+cd writing-polisher-extension
+```
+
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Build the extension**
+```bash
+npm run build
+```
+
+4. **Load into Chrome**
+   1. Open Chrome and go to `chrome://extensions/`
+   2. Turn on **Developer mode**
+   3. Click **Load unpacked**
+   4. Select the `.output/chrome-mv3` directory
+
 ## Features
 
 - ✨ **Automatic Spelling Correction**: Detects Chinese spelling errors in editable text areas on any web page
