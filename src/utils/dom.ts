@@ -48,15 +48,36 @@ export function injectStyles(): void {
       line-height: 1.5;
     }
 
+    @media (prefers-color-scheme: dark) {
+      .${POPUP_CLASS} {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f9fafb;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+    }
+
     .${POPUP_CLASS} .title {
       font-weight: 600;
       margin-bottom: 8px;
       color: #333;
     }
 
+    @media (prefers-color-scheme: dark) {
+      .${POPUP_CLASS} .title {
+        color: #f9fafb;
+      }
+    }
+
     .${POPUP_CLASS} .content {
       margin-bottom: 10px;
       color: #555;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .${POPUP_CLASS} .content {
+        color: #d1d5db;
+      }
     }
 
     .${POPUP_CLASS} .actions {
@@ -74,10 +95,26 @@ export function injectStyles(): void {
       font-size: 13px;
     }
 
+    @media (prefers-color-scheme: dark) {
+      .${POPUP_CLASS} button {
+        border-color: #4b5563;
+        background: #374151;
+        color: #f9fafb;
+      }
+    }
+
     .${POPUP_CLASS} button.primary {
       background: #1677ff;
       color: white;
       border-color: #1677ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .${POPUP_CLASS} button.primary {
+        background: #1677ff;
+        color: white;
+        border-color: #1677ff;
+      }
     }
 
     .${POPUP_CLASS} button:hover {

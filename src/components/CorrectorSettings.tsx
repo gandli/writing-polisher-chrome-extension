@@ -96,6 +96,14 @@ export default function CorrectorSettings() {
           margin: 20px auto;
           padding: 20px;
           font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          background-color: #ffffff;
+          color: #202124;
+        }
+        @media (prefers-color-scheme: dark) {
+          .container {
+            background-color: #1f2937;
+            color: #f9fafb;
+          }
         }
         h1 {
           font-size: 24px;
@@ -103,6 +111,12 @@ export default function CorrectorSettings() {
           margin-bottom: 30px;
           padding-bottom: 10px;
           border-bottom: 1px solid #eee;
+        }
+        @media (prefers-color-scheme: dark) {
+          h1 {
+            color: #f9fafb;
+            border-bottom-color: #374151;
+          }
         }
         .section {
           margin-bottom: 24px;
@@ -114,17 +128,36 @@ export default function CorrectorSettings() {
           color: #333;
           margin-bottom: 8px;
         }
+        @media (prefers-color-scheme: dark) {
+          label {
+            color: #e5e7eb;
+          }
+        }
         input[type="text"] {
           width: 100%;
           padding: 10px;
           border: 1px solid #ddd;
           border-radius: 4px;
           font-size: 14px;
+          background-color: #ffffff;
+          color: #202124;
+        }
+        @media (prefers-color-scheme: dark) {
+          input[type="text"] {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+          }
         }
         .hint {
           font-size: 12px;
           color: #666;
           margin-top: 6px;
+        }
+        @media (prefers-color-scheme: dark) {
+          .hint {
+            color: #9ca3afb;
+          }
         }
         .checkbox-label {
           display: flex;
@@ -149,6 +182,16 @@ export default function CorrectorSettings() {
         .save-button:disabled {
           background-color: #94cfff;
           cursor: not-allowed;
+        }
+        @media (prefers-color-scheme: dark) {
+          .save-button {
+            background-color: #1677ff;
+            color: white;
+          }
+          .save-button:disabled {
+            background-color: #4a5568;
+            color: #9ca3af;
+          }
         }
       `}</style>
     </div>

@@ -13,6 +13,7 @@
 - 🔴 **Red Underline Highlighting**: Visually marks potential spelling mistakes
 - 🔄 **One-click Replacement**: Click the error to see suggested corrections and apply with one click
 - ⚙️ **Custom Model Support**: Configure your own ONNX model and vocabulary URLs in extension options
+- 🌓 **Dark Mode Support**: Automatically adapts to browser light/dark theme
 - 🔌 **100% Offline**: All inference runs locally in your browser, no text is uploaded to any server
 - 🛡️ **Privacy-first**: Perfect for intranet/enterprise environments with strict data privacy requirements
 - 🧠 **Powered by pycorrector**: Uses pre-trained [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) model
