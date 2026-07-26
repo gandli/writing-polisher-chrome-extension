@@ -67,7 +67,8 @@ Uses [Playwright](https://playwright.dev/) for end-to-end testing.
 writing-polisher-extension/
 ├── .github/
 │   └── workflows/
-│       └── tests.yml            # GitHub Actions CI
+│       ├── tests.yml             # GitHub Actions CI
+│       └── release-please.yml     # Automated changelog and releases
 ├── entrypoints/
 │   ├── content/
 │   │   └── content__all_urls.ts    # Content script injected into all web pages
@@ -93,14 +94,13 @@ writing-polisher-extension/
 ├── docs/
 │   ├── CHANGELOG.md              # Changelog
 │   └── DEVELOPMENT.md           # This file
-├── .gitignore
 ├── LICENSE                       # MIT License
 ├── README.md                     # Project README
 ├── package.json
-├── playwright.config.ts            # Playwright E2E config
+├── playwright.config.ts           # Playwright E2E config
 ├── tsconfig.json
 ├── vitest.config.ts               # Vitest unit test config
-└── wxt.config.ts                 # Wxt extension config
+└── wxt.config.ts                # Wxt extension config
 ```
 
 ## Load Extension into Chrome
