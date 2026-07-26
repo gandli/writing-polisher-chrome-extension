@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>writing-polisher-extension - 中文拼写纠错测试页面</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    p.desc {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    .editor-container {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h3 {
+      color: #333;
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 400px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      line-height: 1.8;
+      resize: vertical;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: #3b82f6;
+    }
+    .info {
+      background: #e3f2fd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .info h3 {
+      color: #1976d2;
+      margin-bottom: 12px;
+    }
+    .info ul {
+      margin-left: 20px;
+      color: #444;
+      line-height: 1.8;
+    }
+    .test-text {
+      margin-top: 16px;
+      padding: 16px;
+      background: #fafafa;
+      border-radius: 4px;
+    }
+    .test-text p {
+      font-family: system-ui;
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>writing-polisher-extension</h1>
+  <p class="desc">纯浏览器端中文拼写纠错，基于 ONNX Runtime Web 运行 pycorrector 预训练模型</p>
+
+  <div class="editor-container">
+    <h3>编辑区（安装扩展后，错误会自动高亮）：</h3>
+    <br>
+    <textarea placeholder="在这里输入中文文本，含有拼写错误的内容会被自动检测...">我今天去公圆玩，心情非常高兴。
+做为一名程序员，我喜欢写代玛，每天都要码很多代码。
+这块蛋糕吃起来很甘甜，口感非常好。
+他按排了明天的工作，我们准背八点出发。
+这里的风景真的很美力，让人留恋忘返。
+昨天我买了一个新的苹国，口感脆甜。
+公司明天要开一个重要会义，大家准背好材料。
+这个问题很棘首，我们需要好好讨论一下。
+经过长途跋涉，我们终于到达了目地地。
+他的身体很建康，每天都坚持锻炼。
+这幅画的色彩非常协掉，看着很舒服。
+年轻人应该要有远大的抱负，努力拼博。
+这个产品的质量很好，价格也很实慧，性价比很高。
+天气炎热爱，大家要注意防暑降温。
+我们一定要再接再励，争取更好的成绩。
+在困难面前，我们要永往直前，不能退切。
+他的演讲很精采，赢得了大家的掌声。
+这个消息非常震憾，大家都没想到会发生这样的事情。</textarea>
+  </div>
+
+  <div class="info">
+    <h3>使用说明：</h3>
+    <ul>
+      <li>安装扩展后刷新本页面</li>
+      <li>含有拼写错误的汉字会显示红色波浪下划线</li>
+      <li>点击错误文字弹出替换建议</li>
+      <li>点击替换即可更正</li>
+    </ul>
+    <div class="test-text">
+      <h4>以上文本已经包含了多个常见拼写错误，可以直接测试：</h4>
+      <p>• 公圆 → 公园</p>
+      <p>• 代玛 → 代码</p>
+      <p>• 按排 → 安排</p>
+      <p>• 准背 → 准备</p>
+      <p>• 美力 → 美丽</p>
+      <p>• 苹国 → 苹果</p>
+      <p>• 会义 → 会议</p>
+      <p>• 棘首 → 棘手</p>
+      <p>• 目地地 → 目的地</p>
+      <p>• 建康 → 健康</p>
+      <p>• 协掉 → 协调</p>
+      <p>• 拼博 → 拼搏</p>
+      <p>• 实慧 → 实惠</p>
+      <p>• 炎热爱 → 炎热</p>
+      <p>• 再接再励 → 再接再厉</p>
+      <p>• 永往直前 → 勇往直前</p>
+      <p>• 退切 → 退却</p>
+      <p>• 精采 → 精彩</p>
+      <p>• 震憾 → 震撼</p>
+    </div>
+  </div>
+</body>
+</html>
