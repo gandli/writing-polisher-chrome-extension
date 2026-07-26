@@ -1,10 +1,10 @@
-# pycorrector Chrome Extension
+# writing-polisher-extension
 
-![pycorrector Chrome Extension](./assets/readme/hero.svg)
+![writing-polisher-extension](./assets/readme/hero.svg)
 
 > Pure browser-side Chinese spelling correction, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.
 
-[![Tests](https://github.com/gandli/pycorrector-chrome-extension/actions/workflows/tests.yml/badge.svg)](https://github.com/gandli/pycorrector-chrome-extension/actions/workflows/tests.yml)
+[![Tests](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml/badge.svg)](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features

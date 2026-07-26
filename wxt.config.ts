@@ -6,7 +6,7 @@ export default defineConfig({
     manifest_version: 3,
     name: 'Writing Polisher',
     version: '1.0.0',
-    description: '口语化表达转专业书面法律文书，支持离线词典转换和法条查询',
+    description: 'Pure browser-side Chinese spelling correction, completely offline',
     permissions: ['storage', 'activeTab'],
     host_permissions: ['<all_urls>'],
     action: {
@@ -16,12 +16,6 @@ export default defineConfig({
       page: 'options.html',
       open_in_tab: true,
     },
-    content_scripts: [
-      {
-        matches: ['<all_urls>'],
-        js: ['content.js'],
-      },
-    ],
   },
   modules: ['@wxt-dev/module-react'],
 });

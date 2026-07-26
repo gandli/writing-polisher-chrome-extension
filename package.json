@@ -1,28 +1,33 @@
 {
-  "name": "writing-polisher-chrome-extension",
+  "name": "writing-polisher-extension",
   "version": "1.0.0",
-  "description": "口语化表达转专业书面法律文书，支持离线词典转换和法条查询",
+  "description": "Pure browser-side Chinese spelling correction & text writing enhancement, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.",
   "type": "module",
   "scripts": {
     "dev": "wxt",
     "build": "wxt build",
     "zip": "wxt zip",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "onnxruntime-web": "^1.27.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/chrome": "^0.0.283",
     "@types/node": "^22.8.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@vitest/browser": "^4.1.10",
     "@wxt-dev/module-react": "^1.0.1",
     "jsdom": "^29.1.1",
+    "playwright": "^1.62.0",
     "typescript": "^5.6.3",
     "vitest": "^4.1.10",
     "wxt": "^0.20.27"
