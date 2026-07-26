@@ -7,8 +7,12 @@ export default defineConfig({
     name: 'Writing Polisher',
     version: '1.0.0',
     description: 'Pure browser-side Chinese spelling correction, completely offline',
+    minimum_chrome_version: '116',
     permissions: ['storage', 'activeTab'],
     host_permissions: ['<all_urls>'],
+    content_security_policy: {
+      extension_pages: "script-src 'self'; object-src 'self';",
+    },
     action: {
       default_popup: 'popup.html',
     },

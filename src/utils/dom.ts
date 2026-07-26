@@ -1,12 +1,11 @@
 /**
- * DOM utilities for highlighting and popup
+ * DOM utilities for highlighting spelling errors and popup
  */
 
 import { MatchResult } from '../types';
 
 // Class names
-export const HIGHLIGHT_CLASS_DICT = 'writing-polisher-highlight-dict';
-export const HIGHLIGHT_CLASS_LAW = 'writing-polisher-highlight-law';
+export const HIGHLIGHT_CLASS = 'writing-polisher-highlight';
 export const POPUP_CLASS = 'writing-polisher-popup';
 
 /**
@@ -20,20 +19,19 @@ export function injectStyles(): void {
   const style = document.createElement('style');
   style.id = 'writing-polisher-styles';
   style.textContent = `
-    .${HIGHLIGHT_CLASS_DICT} {
+    .${HIGHLIGHT_CLASS} {
       background-color: rgba(255, 230, 109, 0.4);
-      text-decoration: underline;
-      text-decoration-color: rgba(255, 152, 0, 0.6);
+      text-decoration: underline wavy rgba(255, 152, 0, 0.6);
       cursor: pointer;
       border-radius: 2px;
     }
 
-    .${HIGHLIGHT_CLASS_LAW} {
-      background-color: rgba(100, 181, 255, 0.3);
-      text-decoration: underline;
-      text-decoration-color: rgba(21, 101, 192, 0.6);
-      cursor: pointer;
-      border-radius: 2px;
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     .${POPUP_CLASS} {
@@ -93,9 +91,7 @@ export function injectStyles(): void {
  * Remove existing highlights
  */
 export function removeHighlights(): void {
-  const highlights = document.querySelectorAll(
-    `.${HIGHLIGHT_CLASS_DICT}, .${HIGHLIGHT_CLASS_LAW}`
-  );
+  const highlights = document.querySelectorAll(`.${HIGHLIGHT_CLASS}`);
   highlights.forEach((el) => {
     const parent = el.parentNode;
     if (parent) {
@@ -133,15 +129,10 @@ function wrapTextNode(node: Text, matches: MatchResult[]): void {
 
     const span = document.createElement('span');
     span.textContent = text.slice(match.start, match.end);
-    span.dataset.matchType = match.type;
     span.dataset.replacement = match.replacement;
     span.dataset.start = match.start.toString();
     span.dataset.end = match.end.toString();
-    if (match.type === 'dictionary') {
-      span.className = HIGHLIGHT_CLASS_DICT;
-    } else {
-      span.className = HIGHLIGHT_CLASS_LAW;
-    }
+    span.className = HIGHLIGHT_CLASS;
     fragment.appendChild(span);
 
     lastIndex = match.end;
@@ -175,14 +166,13 @@ function walkTextNodes(element: Element, callback: (node: Text) => void): void {
  */
 export function applyHighlights(container: Element, matches: MatchResult[]): void {
   // Group matches by text node - simplified approach for content editable
-  // This works for most cases, for complex editors we may need to adjust
+  // This works for most cases, for complex editors we may need adjustment
   walkTextNodes(container, (textNode) => {
     const text = textNode.textContent || '';
     if (!text.trim()) return;
 
     const nodeMatches = matches.filter((m) => {
       // Approximate matching for text node - this is simplified
-      // For full accuracy we'd need to track offsets from root
       return text.includes(m.text);
     });
 
@@ -207,29 +197,17 @@ export function showPopup(
   const popup = document.createElement('div');
   popup.className = POPUP_CLASS;
 
-  if (match.type === 'dictionary') {
-    popup.innerHTML = `
-      <div class="title">💡 建议替换</div>
-      <div class="content">
-        <div><strong>原文：</strong>${match.text}</div>
-        <div><strong>替换为：</strong>${match.replacement}</div>
-      </div>
-      <div class="actions">
-        <button id="wp-popup-cancel">忽略</button>
-        <button id="wp-popup-replace" class="primary">替换</button>
-      </div>
-    `;
-  } else {
-    // Law popup
-    const content = match.data?.content || '未找到法条内容';
-    popup.innerHTML = `
-      <div class="title">📖 ${match.data?.name} 第${match.data?.article}条</div>
-      <div class="content">${content}</div>
-      <div class="actions">
-        <button id="wp-popup-close" class="primary">关闭</button>
-      </div>
-    `;
-  }
+  popup.innerHTML = `
+    <div class="title">💡 建议替换</div>
+    <div class="content">
+      <div><strong>原文：</strong>${match.text}</div>
+      <div><strong>替换为：</strong>${match.replacement}</div>
+    </div>
+    <div class="actions">
+      <button id="wp-popup-cancel">忽略</button>
+      <button id="wp-popup-replace" class="primary">替换</button>
+    </div>
+  `;
 
   // Position popup
   popup.style.top = `${rect.bottom + window.scrollY + 8}px`;
@@ -238,20 +216,14 @@ export function showPopup(
   document.body.appendChild(popup);
 
   // Event listeners
-  if (match.type === 'dictionary') {
-    popup.querySelector('#wp-popup-replace')?.addEventListener('click', () => {
-      onReplace?.();
-      removePopup();
-    });
-    popup.querySelector('#wp-popup-cancel')?.addEventListener('click', () => {
-      onClose?.();
-      removePopup();
-    });
-  } else {
-    popup.querySelector('#wp-popup-close')?.addEventListener('click', () => {
-      removePopup();
-    });
-  }
+  popup.querySelector('#wp-popup-replace')?.addEventListener('click', () => {
+    onReplace?.();
+    removePopup();
+  });
+  popup.querySelector('#wp-popup-cancel')?.addEventListener('click', () => {
+    onClose?.();
+    removePopup();
+  });
 
   // Close when clicking outside
   setTimeout(() => {
@@ -278,11 +250,8 @@ export function replaceHighlight(highlightEl: HTMLElement, replacement: string):
 /**
  * Check if element is editable
  */
-export function isEditable(element: Element): boolean {
-  if (element.isContentEditable) return true;
-  const tag = element.tagName.toLowerCase();
-  if (tag === 'input' || tag === 'textarea') return true;
-  return false;
+export function isEditable(element: Element): element is HTMLElement {
+  return 'isContentEditable' in element && (element as HTMLElement).isContentEditable;
 }
 
 /**

@@ -32,24 +32,6 @@ export async function setStorageData(data: Partial<StorageData>): Promise<void> 
   });
 }
 
-export async function getCustomDictionary(): Promise<Record<string, string>> {
-  const data = await getStorageData();
-  return data.customDictionary;
-}
-
-export async function setCustomDictionary(dict: Record<string, string>): Promise<void> {
-  await setStorageData({ customDictionary: dict });
-}
-
-export async function getCustomLaws(): Promise<Record<string, Record<string, string>>> {
-  const data = await getStorageData();
-  return data.customLaws;
-}
-
-export async function setCustomLaws(laws: Record<string, Record<string, string>>): Promise<void> {
-  await setStorageData({ customLaws: laws });
-}
-
 export async function getEnabled(): Promise<boolean> {
   const data = await getStorageData();
   return data.enabled;
@@ -57,4 +39,22 @@ export async function getEnabled(): Promise<boolean> {
 
 export async function setEnabled(enabled: boolean): Promise<void> {
   await setStorageData({ enabled });
+}
+
+export async function getModelUrl(): Promise<string> {
+  const data = await getStorageData();
+  return data.modelUrl;
+}
+
+export async function setModelUrl(modelUrl: string): Promise<void> {
+  await setStorageData({ modelUrl });
+}
+
+export async function getVocabUrl(): Promise<string> {
+  const data = await getStorageData();
+  return data.vocabUrl;
+}
+
+export async function setVocabUrl(vocabUrl: string): Promise<void> {
+  await setStorageData({ vocabUrl });
 }

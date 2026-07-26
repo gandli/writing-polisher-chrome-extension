@@ -4,12 +4,12 @@
   "description": "Pure browser-side Chinese spelling correction & text writing enhancement, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.",
   "type": "module",
   "scripts": {
-    "dev": "wxt",
+    "dev": "wxt dev",
     "build": "wxt build",
-    "zip": "wxt zip",
+    "build:zip": "wxt zip",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test -c playwright.config.ts",
+    "postinstall": "wxt prepare"
   },
   "dependencies": {
     "onnxruntime-web": "^1.27.0",

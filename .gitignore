@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build output
+.output/
+dist/
+*.crx
+*.pem
+
+# Coverage
+coverage/
+*coverage*
+
+# Testing
+test-results/
+playwright-report/
+test-results/
+
+# Environment
+.env
+.env.local
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
