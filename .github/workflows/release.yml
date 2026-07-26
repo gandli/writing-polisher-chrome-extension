@@ -1,4 +1,4 @@
-# 🚀 Automated release - build extension and create GitHub Release
+# 🚀 Automated release - build, test, and publish extension
 
 name: release
 
@@ -23,6 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run tests
+        run: npm run test
+
       - name: Build extension
         run: npm run build
 
@@ -37,5 +40,6 @@ jobs:
           files: |
             writing-polisher-extension.zip
           generate_release_notes: true
+          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

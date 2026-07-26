@@ -1,0 +1,33 @@
+# 📝 Auto-generate CHANGELOG from conventional commits
+
+name: changelog
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate CHANGELOG
+        run: |
+          npx -y conventional-changelog-cli@5.0.0 -p angular -i docs/CHANGELOG.md -s
+
+      - name: Commit CHANGELOG
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update CHANGELOG"
+          file_pattern: docs/CHANGELOG.md
+          skip_dirty_check: true
