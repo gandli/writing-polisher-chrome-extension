@@ -1,8 +1,7 @@
-# writing-polisher-extension
-
-![writing-polisher-extension](./assets/readme/hero.svg)
-
-> Pure browser-side Chinese spelling correction, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%"
+       alt="writing-polisher-extension — Pure browser-side Chinese spelling correction Chrome extension, fully offline with ONNX Runtime Web">
+</p>
 
 [![Tests](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml/badge.svg)](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -11,188 +10,132 @@
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/gandli/writing-polisher-extension/pulls)
 
-## Description
+---
 
-Pure browser-side Chinese spelling correction extension for Chrome, powered by ONNX Runtime Web.
+## What it does
 
-- 100% offline, all inference runs locally in your browser
-- No text leaves your browser - perfect for intranet/enterprise environments with strict privacy requirements
-- Automatically detects Chinese spelling errors in any editable text area on any web page
-- Red underline highlighting + one-click replacement
-- Supports custom ONNX model and vocabulary
-- Dark mode automatic adaptation
-- Built with WXT + React + TypeScript
+Automatically detects Chinese spelling errors in any editable text area on any web page. Errors are marked with a red wavy underline — click to see correction suggestions and apply with one click. All inference runs in your browser. No text ever leaves your device.
 
-## Project Stats
+---
 
-- 📦 **Extension size**: ~148KB gzipped (model downloaded on-demand, not bundled)
-- 🧠 **Model**: Uses pre-trained [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) from [pycorrector](https://github.com/shibing624/pycorrector)
-- ✅ **Fully typed** with TypeScript
-- 🧪 **Tested**: Unit tests + E2E tests with Playwright
-- 🔒 **Security**: Follows Chrome extension security best practices, no XSS vulnerabilities
-
-## Credits
-
-- [pycorrector](https://github.com/shibing624/pycorrector) - Original NLP project for Chinese text correction
-- [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) - Pre-trained ONNX model
-- [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) - Browser inference engine
-- [WXT](https://wxt.dev/) - Browser extension development framework
-- [browser-extension-skills](https://github.com/quangpl/browser-extension-skills) - Agent skills for browser extension development
-
-## Installation
-
-### From Chrome Web Store
-
-*Coming soon*
-
-### Load unpacked (development)
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/gandli/writing-polisher-extension.git
-cd writing-polisher-extension
-```
-
-2. **Install dependencies**
-```bash
-npm install
-```
-
-3. **Build the extension**
-```bash
-npm run build
-```
-
-4. **Load into Chrome**
-   1. Open Chrome and go to `chrome://extensions/`
-   2. Turn on **Developer mode**
-   3. Click **Load unpacked**
-   4. Select the `.output/chrome-mv3` directory
-
-## Features
-
-- ✨ **Automatic Spelling Correction**: Detects Chinese spelling errors in editable text areas on any web page
-- 🔴 **Red Underline Highlighting**: Visually marks potential spelling mistakes
-- 🔄 **One-click Replacement**: Click the error to see suggested corrections and apply with one click
-- ⚙️ **Custom Model Support**: Configure your own ONNX model and vocabulary URLs in extension options
-- 🌓 **Dark Mode Support**: Automatically adapts to browser light/dark theme
-- 🔌 **100% Offline**: All inference runs locally in your browser, no text is uploaded to any server
-- 🛡️ **Privacy-first**: Perfect for intranet/enterprise environments with strict data privacy requirements
-- 🧠 **Powered by pycorrector**: Uses pre-trained [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) model
-
-## Installation
-
-### From Chrome Web Store
-*Coming soon*
-
-### Load unpacked (development)
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/gandli/writing-polisher-extension.git
-cd writing-polisher-extension
-```
-
-2. **Install dependencies**
-```bash
-npm install
-```
-
-3. **Build the extension**
-```bash
-npm run build
-```
-
-4. **Load into Chrome**
-   1. Open Chrome and go to `chrome://extensions/`
-   2. Turn on **Developer mode**
-   3. Click **Load unpacked**
-   4. Select the `.output/chrome-mv3` directory
-
-## Usage
-
-1. After installation, the extension is enabled by default
-2. Navigate to any web page with editable text areas
-3. Type or paste Chinese text containing spelling errors
-4. Errors will be automatically highlighted with a red wavy underline
-5. Click on the highlighted error to see correction suggestions
-6. Click a suggestion to replace the error
-
-## Testing
-
-### Unit tests
-```bash
-npm run test
-```
-
-### E2E tests
-```bash
-npm run test:e2e
-```
-
-## Project Structure
-
-```
-writing-polisher-extension/
-├── entrypoints/
-│   ├── content/            # Content script injected into pages
-│   ├── options/            # Extension options page
-│   └── popup/              # Popup toolbar
-├── e2e/                    # Playwright E2E tests
-├── src/
-│   ├── components/         # React components
-│   │   └── CorrectorSettings.tsx
-│   ├── utils/
-│   │   ├── chinese-corrector.ts  # ONNX inference wrapper
-│   │   ├── dom.ts               # DOM manipulation for highlighting
-│   │   └── storage.ts           # Chrome storage wrapper
-│   └── types.ts            # TypeScript type definitions
-├── assets/
-│   └── readme/             # README assets
-├── test/                   # Vitest unit tests
-└── wxt.config.ts           # WXT configuration
-```
-
-## How it works
-
-1. **Model**: Uses the ONNX version of [mengzi-t5-base-chinese-correction](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction) from pycorrector project
-2. **Inference**: Runs entirely in the browser using [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/), no backend server required
-3. **Detection**: Analyzes text in editable content, identifies potential character-level spelling errors
-4. **User Interface**: Highlights errors with CSS, provides a popup menu for one-click replacement
-
-## Default Model
-
-The extension defaults to:
-- Model URL: `https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx/resolve/main/model.onnx`
-- Vocabulary URL: `https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx/resolve/main/vocab.txt`
-
-You can change these in the extension options page to use your own fine-tuned model.
-
-## Development
+## Quick start
 
 ```bash
 # Install dependencies
 npm install
 
-# Development with hot reload
-npm run dev
-
-# Build for production
+# Build the extension
 npm run build
 
-# Zip for distribution
+# Load into Chrome
+# 1. Open chrome://extensions/
+# 2. Enable Developer mode
+# 3. Click "Load unpacked"
+# 4. Select .output/chrome-mv3/
+```
+
+Once loaded, type Chinese text in any web page input — it works automatically.
+
+---
+
+## How it works
+
+1. **Model** — Uses the pre-trained [mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) ONNX model
+2. **Inference** — [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) runs locally in the browser, no backend server needed
+3. **Detection** — Analyzes editable text areas and identifies character-level spelling errors
+4. **UI** — CSS red wavy underline highlighting + popup menu for one-click replacement
+
+---
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **100% Offline** | All inference runs locally in-browser, no network required |
+| **Privacy-first** | No text leaves your browser — ideal for intranets and enterprise |
+| **Auto detection** | Works on any editable text area on any web page |
+| **One-click fix** | Red wavy underline marks errors, click to see suggestions |
+| **Custom model** | Configure your own ONNX model and vocabulary URLs in options |
+| **Dark mode** | Automatically adapts to browser light/dark theme |
+
+---
+
+## Project structure
+
+```
+writing-polisher-extension/
+├── entrypoints/
+│   ├── content/              # Content script injected into pages
+│   ├── options/              # Extension options page
+│   └── popup/                # Popup toolbar
+├── src/
+│   ├── components/
+│   │   └── CorrectorSettings.tsx
+│   ├── utils/
+│   │   ├── chinese-corrector.ts  # ONNX inference wrapper
+│   │   ├── dom.ts                # DOM manipulation for highlighting
+│   │   └── storage.ts            # Chrome storage wrapper
+│   └── types.ts              # TypeScript type definitions
+├── test/                     # Unit tests (Vitest)
+├── e2e/                      # E2E tests (Playwright)
+├── assets/readme/            # README assets
+└── docs/                     # Architecture documentation
+```
+
+---
+
+## Development
+
+```bash
+# Dev mode with hot reload
+npm run dev
+
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
+
+# Production build
+npm run build
+
+# Package as zip
 npm run build:zip
 ```
 
+---
+
+## Release
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+GitHub Actions automatically: test → build → zip → create Release.
+
+---
+
+## Tech stack
+
+- **WXT** — Browser extension framework
+- **React 18** — UI components
+- **TypeScript 5** — Type safety
+- **ONNX Runtime Web** — In-browser ML inference
+- **Vitest + Playwright** — Testing
+
+---
+
 ## Credits
 
-- [pycorrector](https://github.com/shibing624/pycorrector) - Original NLP project for Chinese text correction
-- [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) - Pre-trained ONNX model
-- [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) - Browser inference engine
-- [WXT](https://wxt.dev/) - Browser extension development framework
+- [pycorrector](https://github.com/shibing624/pycorrector) — Chinese text correction NLP project
+- [shibing624/mengzi-t5-base-chinese-correction-onnx](https://huggingface.co/shibing624/mengzi-t5-base-chinese-correction-onnx) — Pre-trained ONNX model
+- [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/) — Browser inference engine
+- [WXT](https://wxt.dev/) — Extension framework
+- [browser-extension-skills](https://github.com/quangpl/browser-extension-skills) — Development skillset
+
+---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
- 
+MIT License — see [LICENSE](LICENSE).
