@@ -1,4 +1,10 @@
 # [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
+
+
+### Reverts
+
+* restore pre-beautify README and hero SVG ([e2e6d10](https://github.com/gandli/writing-polisher-extension/commit/e2e6d10ebd7f3c501f67dce59e1ab74e7df9697d))
+# [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
 # [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
 # [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
 # CHANGELOG
