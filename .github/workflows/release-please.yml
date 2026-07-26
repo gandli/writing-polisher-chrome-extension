@@ -1,0 +1,18 @@
+# 🤖 release-please - automated changelog and releases
+
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: release-please-action
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: node
+          package-name: writing-polisher-extension
