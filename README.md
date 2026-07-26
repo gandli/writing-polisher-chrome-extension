@@ -26,8 +26,8 @@
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/gandli/pycorrector-chrome-extension.git
-cd pycorrector-chrome-extension
+git clone https://github.com/gandli/writing-polisher-extension.git
+cd writing-polisher-extension
 ```
 
 2. **Install dependencies**
