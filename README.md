@@ -6,6 +6,10 @@
 
 [![Tests](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml/badge.svg)](https://github.com/gandli/writing-polisher-extension/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Framework: WXT](https://img.shields.io/badge/Framework-WXT-646cff.svg)](https://wxt.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 
 ## Features
 
