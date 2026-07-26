@@ -1,5 +1,6 @@
 # [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
 # [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
+# [1.0.0](https://github.com/gandli/writing-polisher-extension/compare/v0.0.3...v1.0.0) (2026-07-26)
 # CHANGELOG
 
 ## v1.0.0 (2026-07-26)
