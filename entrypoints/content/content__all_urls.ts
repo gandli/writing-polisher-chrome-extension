@@ -137,7 +137,13 @@ init().catch(err => {
 });
 
 // Listen for storage changes from options page
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  // Verify sender is from our own extension
+  if (sender.id !== chrome.runtime.id) {
+    sendResponse({ ok: false, error: 'Unauthorized sender' });
+    return;
+  }
+
   if (message.type === 'settings-updated') {
     runCorrection().catch(err => {
       console.error('[writing-polisher] Update error:', err);

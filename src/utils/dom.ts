@@ -197,17 +197,45 @@ export function showPopup(
   const popup = document.createElement('div');
   popup.className = POPUP_CLASS;
 
-  popup.innerHTML = `
-    <div class="title">💡 建议替换</div>
-    <div class="content">
-      <div><strong>原文：</strong>${match.text}</div>
-      <div><strong>替换为：</strong>${match.replacement}</div>
-    </div>
-    <div class="actions">
-      <button id="wp-popup-cancel">忽略</button>
-      <button id="wp-popup-replace" class="primary">替换</button>
-    </div>
-  `;
+  // Build popup with DOM API to avoid XSS from user text
+  const title = document.createElement('div');
+  title.className = 'title';
+  title.textContent = '💡 Suggestion';
+  popup.appendChild(title);
+
+  const content = document.createElement('div');
+  content.className = 'content';
+
+  const originalRow = document.createElement('div');
+  const originalLabel = document.createElement('strong');
+  originalLabel.textContent = 'Original:';
+  originalRow.appendChild(originalLabel);
+  originalRow.appendChild(document.createTextNode(` ${match.text}`));
+  content.appendChild(originalRow);
+
+  const replacementRow = document.createElement('div');
+  const replacementLabel = document.createElement('strong');
+  replacementLabel.textContent = 'Replacement:';
+  replacementRow.appendChild(replacementLabel);
+  replacementRow.appendChild(document.createTextNode(` ${match.replacement}`));
+  content.appendChild(replacementRow);
+  popup.appendChild(content);
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  const cancelBtn = document.createElement('button');
+  cancelBtn.id = 'wp-popup-cancel';
+  cancelBtn.textContent = 'Ignore';
+  actions.appendChild(cancelBtn);
+
+  const replaceBtn = document.createElement('button');
+  replaceBtn.id = 'wp-popup-replace';
+  replaceBtn.className = 'primary';
+  replaceBtn.textContent = 'Replace';
+  actions.appendChild(replaceBtn);
+
+  popup.appendChild(actions);
 
   // Position popup
   popup.style.top = `${rect.bottom + window.scrollY + 8}px`;
@@ -216,11 +244,11 @@ export function showPopup(
   document.body.appendChild(popup);
 
   // Event listeners
-  popup.querySelector('#wp-popup-replace')?.addEventListener('click', () => {
+  replaceBtn.addEventListener('click', () => {
     onReplace?.();
     removePopup();
   });
-  popup.querySelector('#wp-popup-cancel')?.addEventListener('click', () => {
+  cancelBtn.addEventListener('click', () => {
     onClose?.();
     removePopup();
   });
