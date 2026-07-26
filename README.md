@@ -70,7 +70,7 @@ npm run test:e2e
 ## Project Structure
 
 ```
-pycorrector-chrome-extension/
+writing-polisher-extension/
 ├── entrypoints/
 │   ├── content/            # Content script injected into pages
 │   ├── options/            # Extension options page
@@ -118,7 +118,7 @@ npm run dev
 npm run build
 
 # Zip for distribution
-npm run zip
+npm run build:zip
 ```
 
 ## Credits
