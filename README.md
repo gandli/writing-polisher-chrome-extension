@@ -194,3 +194,4 @@ npm run build:zip
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
+
