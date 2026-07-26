@@ -1,6 +1,6 @@
 {
   "name": "writing-polisher-extension",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "Pure browser-side Chinese spelling correction & text writing enhancement, powered by ONNX Runtime Web. Completely offline, no text leaves your browser.",
   "type": "module",
   "scripts": {
